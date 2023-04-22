@@ -1,8 +1,9 @@
 # app.py
-from flask import Flask
+from flask import Flask, redirect
 from flask import render_template
 from database import OracleDB
 from service import makeChartData, makeChartDataForSingleItem, getSumOfPurchases
+from background import logPrice
 
 app = Flask(__name__)
 
@@ -60,6 +61,12 @@ def nenad(id=None):
     jsonstr = makeChartDataForSingleItem(list, purchases, id)
 
   return render_template('overview.html', jsonstr=jsonstr, purchases=purchases, total=total, itemId=id) 
+
+@app.route("/takeSnapshot")
+def takeSnapshot():
+  logPrice()
+  return redirect("/overview/all")
+
 
 if __name__ == '__main__':
   app.run()

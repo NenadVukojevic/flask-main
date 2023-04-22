@@ -15,14 +15,16 @@ def makeChartDataForSingleItem(list, purchases, id):
 
         buys.append(item['buy'])
         sells.append(item['sell'])
+                    
         d.append(snapshot[1].strftime("%m.%d - %H"))
         p.append(purchase['paid'])
 
     datasets = []
     dataset = Dataset('buy', buys, 'rgb(255, 0, 0)', False)
     datasets.append(dataset)
-    dataset = Dataset('sell', sells, 'rgb(0, 255, 0)', False)
-    datasets.append(dataset)
+    if(sum(sells) > 0):
+        dataset = Dataset('sell', sells, 'rgb(0, 255, 0)', False)
+        datasets.append(dataset)
     dataset = Dataset('paid', p, 'rgb(0, 0, 255)', False)
     datasets.append(dataset)
     data = Data(d, datasets)
