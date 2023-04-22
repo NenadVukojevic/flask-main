@@ -1,0 +1,23 @@
+<!doctype html>
+<title>Snapshots</title>
+<body>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+			<th scope="col">ID</th>
+			<th scope="col">Time</th>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+	{% for snapshot in snapshots %}
+		<tr>
+            <td>{{ snapshot.id }}</td>
+			<td>{{ snapshot.snapshot_date }}</td>
+			
+		</tr>
+    {% endfor %}
+	</tbody>
+</table>
+</body>

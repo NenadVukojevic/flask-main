@@ -1,0 +1,62 @@
+<!doctype html>
+<title>Snapshots</title>
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="row m-2">
+        <div class="col-sm">
+            <table class="table table-striped table-sm">
+                <thead  class="table-dark">
+                    <tr>
+                        <th class="text-center">Naziv</th>
+                        <th class="text-center">cena</th>
+                        <th class="text-center">datum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in purchases %}
+                    <tr>
+                        <td>
+                            {% if item.id|string == itemId|string %}
+                                <a class="btn btn-sm btn-primary" href="/overview/{{ item.id }}">{{ item.name }}</a>
+                            {% else %}
+                                <a class="btn btn-sm btn-secondary" href="/overview/{{ item.id }}">{{ item.name }}</a>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            {{ "{:,.2f}".format(item.paid) }}
+                        </td>
+                        <td class="text-center">
+                            {{ item.purchase_date.strftime("%d.%m.%Y") }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>
+                            {% if itemId|string == 'all' %}
+                                <a class="btn btn-sm btn-primary" href="/overview/all">Total</a>
+                            {% else %}
+                                <a class="btn btn-sm btn-secondary" href="/overview/all">Total</a>
+                            {% endif %}
+                        <th class="text-end">{{"{:,.2f}".format(total)}}</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col-sm">
+            <canvas id="bar-chart" style="width:100%;max-width:700px"></canvas>
+        </div>
+    </div>
+    <script>
+        var charData = {{jsonstr|tojson}}
+
+        new Chart(document.getElementById("bar-chart"), charData );
+    </script>
+</body>

@@ -1,0 +1,26 @@
+<!doctype html>
+<title>Snapshots</title>
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+			<th scope="col">ID</th>
+			<th scope="col">Time</th>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+	{% for item in items %}
+		<tr>
+            <td>{{ item.id }}</td>
+			<td>{{ item.name }}</td>
+			
+		</tr>
+    {% endfor %}
+	</tbody>
+</table>
+</body>
