@@ -11,7 +11,11 @@ def get_item_id(title, items):
     return id
 
 def get_snapshot_id():
-    return 0
+    ora = OracleDB()
+    ora.connect()
+    id = ora.getSnapshotId()
+    ora.connection_close() 
+    return id
 
 proxies = {
 #   'http': 'http://172.17.5.30:8080',
@@ -69,6 +73,8 @@ def logPrice():
         if item_id > 0: #title in mine and 
             prices.append({'item_id':item_id, 'snapshot_id': snapshot_id, 'buy':buy, 'sell':sell})
             print(title, ',', buy, ', ', sell)
-    print (prices)
+    
+    for price in prices:
+        ora.addPrice(price['item_id'], price['snapshot_id'], price['buy'], price['sell'])
     ora.connection_close()        
 

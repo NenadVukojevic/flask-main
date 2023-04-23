@@ -56,6 +56,27 @@ class OracleDB:
             content = {}
         return payload
 
+    def getSnapshotId(self):
+        res = 0
+        
+        with self.rconn.cursor() as cursor:
+            snapshot_id = cursor.var(int)
+            # call the stored procedure
+            cursor.callproc('GET_SNAPSHOT_ID',
+                                [snapshot_id])
+            res = snapshot_id.getvalue()
+
+        return res;
+
+    def addPrice(self, item_id, snapshot_id, buy, sell):
+        try:
+            with self.rconn.cursor() as cursor:
+                # call the stored procedure
+                cursor.callproc('ADD_PRICE',
+                                [item_id, snapshot_id, buy, sell])
+        except cx_Oracle.Error as error:
+            print(error) 
+
     def getPurchases(self):
         res = self.conn.execute(text("""
                                      select p.item_id
